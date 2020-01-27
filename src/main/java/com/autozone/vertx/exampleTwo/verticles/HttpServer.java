@@ -20,6 +20,8 @@ public class HttpServer extends AbstractVerticle {
 	public void handler (HttpServerRequest request) {
 		if("/sse".equals(request.path())) {
 			sse(request);
+		} else {
+			
 		}
 	}
 	
