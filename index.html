@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div id="main"></div>
+
+	<script>
+		var sse = new EventSource("http://localhost:8080/sse");
+		var main = document.getElementById("main");
+
+		sse.addEventListener("changeReport", (evt) => {
+			var data = JSON.parse(evt.data);
+
+			let div = document.getElementById(data.id);
+			if(div === null){
+				div = document.createElement("div");
+				div.setAttribute("id", data.id);
+				main.appendChild(div);
+			}
+
+			div.innerHTML = `<strong>${data.message}</strong>(<em>${data.id}</em>)`
+		});
+	</script>
+</body>
+</html>

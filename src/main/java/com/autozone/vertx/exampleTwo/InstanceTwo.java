@@ -7,26 +7,20 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.ext.cluster.infinispan.InfinispanClusterManager;
 
-public class InstanceOne {
+public class InstanceTwo {
 	
 	public static void main(String[] args) {
-		
 		ClusterManager clusterManager = new InfinispanClusterManager();
 		
 		VertxOptions options = new VertxOptions().setClusterManager(clusterManager);
 		
-		Vertx.clusteredVertx(options, handler -> {
-			if (handler.succeeded()) {
-				Vertx vertx = handler.result();
-
+		Vertx.clusteredVertx(options, resultHandler -> {
+			if(resultHandler.succeeded()) {
+				Vertx vertx = resultHandler.result();
+				
 				vertx.deployVerticle("com.autozone.vertx.exampleTwo.verticles.InventoryReporter", 
 						new DeploymentOptions().setInstances(4)
-											   .setConfig(new JsonObject().put("store_name", "Memphis Store")));
-				
-				vertx.deployVerticle("com.autozone.vertx.exampleTwo.verticles.InventoryListener");
-				
-				vertx.deployVerticle("com.autozone.vertx.exampleTwo.verticles.HttpServer",
-						new DeploymentOptions().setConfig(new JsonObject().put("server_port", 8080)));
+											   .setConfig(new JsonObject().put("store_name", "Chihuahua Store")));				
 			}
 		});
 	}

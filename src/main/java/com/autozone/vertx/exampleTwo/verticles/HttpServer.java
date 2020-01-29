@@ -35,7 +35,8 @@ public class HttpServer extends AbstractVerticle {
 		MessageConsumer<JsonObject> consumer = vertx.eventBus().consumer("inventory-change");
 		
 		consumer.handler(handler -> {
-			response.write("event: changeReport \n");
+			System.out.println(handler.body());
+			response.write("event: changeReport\n");
 			response.write("data: " + handler.body().encode() + "\n\n");
 		});
 		
