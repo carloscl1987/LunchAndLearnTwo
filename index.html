@@ -8,7 +8,7 @@
 	<div id="main"></div>
 
 	<script>
-		var sse = new EventSource("http://localhost:8080/sse");
+		var sse = new EventSource("/sse");
 		var main = document.getElementById("main");
 
 		sse.addEventListener("changeReport", (evt) => {
