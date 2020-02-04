@@ -18,13 +18,13 @@ public class InventoryReporter extends AbstractVerticle {
 		
 		EventBus bus = vertx.eventBus();
 		
-		vertx.setPeriodic(5000, handler -> {
-			
+		vertx.setPeriodic(5000, handler -> {			
 			int skuId = (int)Math.floor(Math.random() * 10000000);
 
 			JsonObject message = new JsonObject().put("message", storeName + 
-					" reports a inventory change of SKU" + skuId).put("id", id);
-			bus.publish("inventory-change", message);
+					" reports a inventory change of SKU" + skuId).put("id", id)
+					.put("store_name", storeName);
+			bus.publish("inventory.change", message);
 		});
 	}
 }

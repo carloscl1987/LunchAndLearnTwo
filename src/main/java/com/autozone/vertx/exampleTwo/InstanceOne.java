@@ -25,6 +25,8 @@ public class InstanceOne {
 				
 				vertx.deployVerticle("com.autozone.vertx.exampleTwo.verticles.InventoryListener");
 				
+				vertx.deployVerticle("com.autozone.vertx.exampleTwo.verticles.InventoryData");
+				
 				vertx.deployVerticle("com.autozone.vertx.exampleTwo.verticles.HttpServer",
 						new DeploymentOptions().setConfig(new JsonObject().put("server_port", 8080)));
 			}

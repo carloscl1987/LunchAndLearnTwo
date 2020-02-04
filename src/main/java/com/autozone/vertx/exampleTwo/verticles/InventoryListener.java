@@ -10,7 +10,7 @@ public class InventoryListener extends AbstractVerticle {
 	public void start() throws Exception {
 		EventBus bus = vertx.eventBus();
 		
-		bus.<JsonObject>consumer("inventory-change", this::logInventoryChange);
+		bus.<JsonObject>consumer("inventory.change", this::logInventoryChange);
 	}
 	
 	public void logInventoryChange(Message<JsonObject> message) {

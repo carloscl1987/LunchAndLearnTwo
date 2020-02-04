@@ -2,16 +2,22 @@
 <html lang="EN">
 <head>
 <meta charset="utf-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<div id="main"></div>
-
-	<script>
+<title>Lunc and learn </title>
+<script>
+	function inventory() {
 		var sse = new EventSource("/sse");
 		var main = document.getElementById("main");
+		var invQty = document.getElementById("inventoryQty");
 
 		sse.addEventListener("changeReport", (evt) => {
+			changeReport(evt);
+		});
+
+		sse.addEventListener("inventoryQuantity", (evt) => {
+			updateInventory(evt);
+		});
+
+		function changeReport(evt){
 			var data = JSON.parse(evt.data);
 
 			let div = document.getElementById(data.id);
@@ -22,7 +28,29 @@
 			}
 
 			div.innerHTML = `<strong>${data.message}</strong>(<em>${data.id}</em>)`
-		});
-	</script>
+		}
+
+		function updateInventory(evt){
+			var data = JSON.parse(evt.data);
+			var inventoryData = data.result;
+
+			for (var i = 0; i < inventoryData.length; i++) {
+				let div = document.getElementById(inventoryData[i].store_name);
+				if(div === null){
+					div = document.createElement("div");
+					div.setAttribute("id", inventoryData[i].store_name);
+					invQty.appendChild(div);
+				}
+				div.innerText = inventoryData[i].store_name + " " + inventoryData[i].quantity;	
+			}
+		}
+	}
+
+	window.onload = inventory;
+</script>
+</head>
+<body>
+	<div id="inventoryQty"></div>
+	<div id="main"></div>
 </body>
 </html>
